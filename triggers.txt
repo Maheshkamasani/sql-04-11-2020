@@ -1,0 +1,235 @@
+mysql: [Warning] C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe: ignoring option '--no-beep' due to invalid value ''.
+Enter password: **********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 105
+Server version: 8.0.22 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| babu               |
+| demo               |
+| divya              |
+| goblog             |
+| happy              |
+| information_schema |
+| mysql              |
+| performance_schema |
+| reddy              |
+| sakila             |
+| sample             |
+| sheet              |
+| sys                |
+| test1              |
+| test_db            |
+| world              |
++--------------------+
+16 rows in set (0.01 sec)
+
+mysql> use divya;
+Database changed
+mysql> CREATE TABLE author (author_id integer primary key,
+    ->                             authorName varchar(30),
+    ->                             email varchar (25), gender varchar (6));
+Query OK, 0 rows affected (0.41 sec)
+
+
+
+mysql> use divya;
+Database changed
+mysql> show tables;
++-----------------+
+| Tables_in_divya |
++-----------------+
+| author          |
+| book            |
+| employee        |
++-----------------+
+3 rows in set (0.01 sec)
+
+mysql> DESCRIBE author;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| author_id  | int         | NO   | PRI | NULL    |       |
+| authorName | varchar(30) | YES  |     | NULL    |       |
+| email      | varchar(25) | YES  |     | NULL    |       |
+| gender     | varchar(6)  | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+
+
+
+
+mysql> CREATE TABLE book (BookId integer not null unique,
+    ->                         ISBN integer primary key,
+    ->                        book_name varchar (30) not null,
+    ->                         author integer, ed_num integer,
+    ->                       price integer, pages integer,
+    ->          foreign key (author) references author (author_id) on delete cascade);
+Query OK, 0 rows affected (0.39 sec)
+
+
+
+mysql> DESCRIBE book;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| BookId    | int         | NO   | UNI | NULL    |       |
+| ISBN      | int         | NO   | PRI | NULL    |       |
+| book_name | varchar(30) | NO   |     | NULL    |       |
+| author    | int         | YES  | MUL | NULL    |       |
+| ed_num    | int         | YES  |     | NULL    |       |
+| price     | int         | YES  |     | NULL    |       |
+| pages     | int         | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+
+
+
+mysql> insert into author values
+    ->               (1, "Kraig Muller", "Wordnewton@gmail.com", "Male");
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into author values
+    ->               (2, "Karrie Nicolette", "karrie23@gmail.com", "Female");
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into book values
+    ->               (1, 001, "Glimpses of the past", 1, 1, 650, 396);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into book values
+    ->               (2, 002, "Beyond The Horizons of Venus", 1, 1, 650, 396);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into book values
+    ->               (3, 003, "Ultrasonic Aquaculture", 2, 1, 799, 500);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into book values
+    ->               (4, 004, "Cyrogenic Engines", 2, 1, 499, 330);
+Query OK, 1 row affected (0.15 sec)
+
+delimiter //
+create procedure display_book() 
+                      -> begin 
+                      -> SELECT * FROM book; 
+                      -> end //
+call display_book(); //
+
++--------+------+------------------------------+--------+--------+-------+-------+
+| BookId | ISBN | book_name                    | author | ed_num | price | pages |
++--------+------+------------------------------+--------+--------+-------+-------+
+|      1 |    1 | Glimpses of the past         |      1 |      1 |   650 |   396 |
+|      2 |    2 | Beyond The Horizons of Venus |      1 |      1 |   650 |   396 |
+|      3 |    3 | Ultrasonic Aquaculture       |      2 |      1 |   799 |   500 |
++--------+------+------------------------------+--------+--------+-------+-------+
+3 rows in set (0.00 sec)
+
+mysql> delimiter //
+mysql> create procedure disp_max(OUT highestprice integer)
+    -> begin
+    -> select max(price) into highestprice from book;
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.06 sec)
+
+
+mysql: [Warning] C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe: ignoring option '--no-beep' due to invalid value ''.
+Enter password: **********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 106
+Server version: 8.0.22 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| babu               |
+| demo               |
+| divya              |
+| goblog             |
+| happy              |
+| information_schema |
+| mysql              |
+| performance_schema |
+| reddy              |
+| sakila             |
+| sample             |
+| sheet              |
+| sys                |
+| test1              |
+| test_db            |
+| world              |
++--------------------+
+16 rows in set (0.04 sec)
+
+
+
+
+
+mysql> describe employee;
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| id    | int unsigned | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(30)  | NO   |     | NULL    |                |
+| city  | varchar(30)  | NO   |     | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+3 rows in set (0.01 sec)
+
+
+
+mysql>CREATE TABLE pet (name VARCHAR(20), owner VARCHAR(20),
+       species VARCHAR(20), sex CHAR(1), birth DATE, death DATE);
+Query OK, 0 rows affected (0.20 sec)
+
+mysql> SHOW TABLES;
++-----------------+
+| Tables_in_divya |
++-----------------+
+| author          |
+| book            |
+| employee        |
+| pet             |
++-----------------+
+4 rows in set (0.01 sec)
+mysql> DESCRIBE pet;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| name    | varchar(20) | YES  |     | NULL    |       |
+| owner   | varchar(20) | YES  |     | NULL    |       |
+| species | varchar(20) | YES  |     | NULL    |       |
+| sex     | char(1)     | YES  |     | NULL    |       |
+| birth   | date        | YES  |     | NULL    |       |
+| death   | date        | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql>
+
+
+
+
+
